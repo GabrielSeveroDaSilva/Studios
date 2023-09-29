@@ -4,38 +4,38 @@
  */
 "use strict";
 
-var dvstudios = {
+var pstudio = {
 		flocker: {
 			field_changed:	 false,
 			field_interract: false,
 			form_interract:  false
 		}
 	},
-    $dvstudios_html = jQuery('html'),
-	dvstudios_tns = [],
-    $dvstudios_body = jQuery('body'),
-    $dvstudios_window = jQuery(window),
-    $dvstudios_header = jQuery('header#dvstudios-header'),
-    $dvstudios_footer = jQuery('footer#dvstudios-footer'),
-	$dvstudios_main = jQuery('main.dvstudios-content-wrap'),
-	$dvstudios_scroll = jQuery('.dvstudios-content-scroll'),
-	$dvstudios_header_holder;
+    $pstudio_html = jQuery('html'),
+	pstudio_tns = [],
+    $pstudio_body = jQuery('body'),
+    $pstudio_window = jQuery(window),
+    $pstudio_header = jQuery('header#pstudio-header'),
+    $pstudio_footer = jQuery('footer#pstudio-footer'),
+	$pstudio_main = jQuery('main.pstudio-content-wrap'),
+	$pstudio_scroll = jQuery('.pstudio-content-scroll'),
+	$pstudio_header_holder;
 
 // Default Options
-dvstudios.config = {
+pstudio.config = {
     'smooth_ease' : 0.1,
 	'content_load_delay': 0.8
 }
 
-class dvstudios_Before_After {
+class pstudio_Before_After {
 	constructor($obj) {
 		if ($obj instanceof jQuery) {
 			let this_class = this;
 			this.$el = {
 				$wrap: $obj,
-				$before : jQuery('<div class="dvstudios-before-after-img dvstudios-before-img"/>').appendTo($obj),
-				$after : jQuery('<div class="dvstudios-before-after-img dvstudios-after-img"/>').appendTo($obj),
-				$divider : jQuery('<div class="dvstudios-before-after-divider"><i class="la la-arrows-h"></i></div>').appendTo($obj),
+				$before : jQuery('<div class="pstudio-before-after-img pstudio-before-img"/>').appendTo($obj),
+				$after : jQuery('<div class="pstudio-before-after-img pstudio-after-img"/>').appendTo($obj),
+				$divider : jQuery('<div class="pstudio-before-after-divider"><i class="la la-arrows-alt-h"></i></div>').appendTo($obj),
 			};
 			this.offset = this.$el.$wrap.offset().left;
 			this.size = this.$el.$wrap.width();
@@ -92,7 +92,7 @@ class dvstudios_Before_After {
 			}, false);
 
 			// Window Events
-			$dvstudios_window.on('resize', function() {
+			$pstudio_window.on('resize', function() {
 				this_class.layout();
 				this_class.reset();
 			}).on('load', function() {
@@ -129,115 +129,115 @@ class dvstudios_Before_After {
 }
 
 // Magic Cursor
-dvstudios.cursor = {
-	$el : jQuery('.dvstudios-cursor'),
-	$el_main : jQuery('span.dvstudios-cursor-circle'),
-	targetX: $dvstudios_window.width()/2,
-	targetY: $dvstudios_window.height()/2,
-	currentX: $dvstudios_window.width()/2,
-	currentY: $dvstudios_window.height()/2,
+pstudio.cursor = {
+	$el : jQuery('.pstudio-cursor'),
+	$el_main : jQuery('span.pstudio-cursor-circle'),
+	targetX: $pstudio_window.width()/2,
+	targetY: $pstudio_window.height()/2,
+	currentX: $pstudio_window.width()/2,
+	currentY: $pstudio_window.height()/2,
 	easing: 0.2,
 	init : function() {
 		let $this_el = this.$el;
 		// Cursor Move
-		$dvstudios_window.on('mousemove', function(e) {
-			dvstudios.cursor.targetX = e.clientX - $this_el.width()/2;
-			dvstudios.cursor.targetY = e.clientY - $this_el.height()/2;
+		$pstudio_window.on('mousemove', function(e) {
+			pstudio.cursor.targetX = e.clientX - $this_el.width()/2;
+			pstudio.cursor.targetY = e.clientY - $this_el.height()/2;
         });
 		if ($this_el.length) {
-			dvstudios.cursor.animate();
+			pstudio.cursor.animate();
 		}
 
 		// Show and Hide Cursor
-        $dvstudios_window.on('mouseleave', function() {
-			dvstudios.cursor.$el.addClass('is-inactive');
+        $pstudio_window.on('mouseleave', function() {
+			pstudio.cursor.$el.addClass('is-inactive');
         }).on('mouseenter', function() {
-			dvstudios.cursor.$el.removeClass('is-inactive');
+			pstudio.cursor.$el.removeClass('is-inactive');
         });
 
 		// Bind Interractions
 		jQuery(document).on('mouseenter', 'a', function() {
-			if (jQuery(this).hasClass('dvstudios-lightbox-link')) {
-				dvstudios.cursor.$el.addClass('int-lightbox');
+			if (jQuery(this).hasClass('pstudio-lightbox-link')) {
+				pstudio.cursor.$el.addClass('int-lightbox');
 			} else {
-				dvstudios.cursor.$el.addClass('int-link');
+				pstudio.cursor.$el.addClass('int-link');
 			}
 			jQuery(this).on('mouseleave', function() {
-				dvstudios.cursor.$el.removeClass('int-link int-lightbox');
+				pstudio.cursor.$el.removeClass('int-link int-lightbox');
 			});
 		}).on('mouseenter', 'button', function() {
-			dvstudios.cursor.$el.addClass('int-link');
+			pstudio.cursor.$el.addClass('int-link');
 			jQuery(this).on('mouseleave', function() {
-				dvstudios.cursor.$el.removeClass('int-link');
+				pstudio.cursor.$el.removeClass('int-link');
 			});
 		}).on('mouseenter', 'input[type="submit"]', function() {
-			dvstudios.cursor.$el.addClass('int-link');
+			pstudio.cursor.$el.addClass('int-link');
 			jQuery(this).on('mouseleave', function() {
-				dvstudios.cursor.$el.removeClass('int-link');
+				pstudio.cursor.$el.removeClass('int-link');
 			});
-		}).on('mouseenter', '.dvstudios-back', function() {
-			jQuery('.dvstudios-back').on('mouseenter', function() {
-				dvstudios.cursor.$el.addClass('int-link');
+		}).on('mouseenter', '.pstudio-back', function() {
+			jQuery('.pstudio-back').on('mouseenter', function() {
+				pstudio.cursor.$el.addClass('int-link');
 				jQuery(this).on('mouseleave', function() {
-					dvstudios.cursor.$el.removeClass('int-link');
+					pstudio.cursor.$el.removeClass('int-link');
 				});
 			});
 		}).on('mouseenter', '.is-link', function() {
 			jQuery('.is-link').on('mouseenter', function() {
-				dvstudios.cursor.$el.addClass('int-link');
+				pstudio.cursor.$el.addClass('int-link');
 				jQuery(this).on('mouseleave', function() {
-					dvstudios.cursor.$el.removeClass('int-link');
+					pstudio.cursor.$el.removeClass('int-link');
 				});
 			});
-		}).on('mouseenter', '.dvstudios-aside-overlay', function() {
-			dvstudios.cursor.$el.addClass('int-close');
+		}).on('mouseenter', '.pstudio-aside-overlay', function() {
+			pstudio.cursor.$el.addClass('int-close');
 			jQuery(this).on('mouseleave', function() {
-				dvstudios.cursor.$el.removeClass('int-close');
+				pstudio.cursor.$el.removeClass('int-close');
 			});
-		}).on('mouseenter', '.dvstudios-before-after', function() {
-			dvstudios.cursor.$el.addClass('int-grab-h');
+		}).on('mouseenter', '.pstudio-before-after', function() {
+			pstudio.cursor.$el.addClass('int-grab-h');
 			jQuery(this).on('mouseleave', function() {
-				dvstudios.cursor.$el.removeClass('int-grab-h');
+				pstudio.cursor.$el.removeClass('int-grab-h');
 			});
-		}).on('mouseenter', '.dvstudios-testimonials-carousel .tns-ovh', function() {
-			dvstudios.cursor.$el.addClass('int-grab-h');
+		}).on('mouseenter', '.pstudio-testimonials-carousel .tns-ovh', function() {
+			pstudio.cursor.$el.addClass('int-grab-h');
 			jQuery(this).on('mouseleave', function() {
-				dvstudios.cursor.$el.removeClass('int-grab-h');
+				pstudio.cursor.$el.removeClass('int-grab-h');
 			});
-		}).on('mouseenter', '.dvstudios-albums-slider', function() {
-			dvstudios.cursor.$el.addClass('int-grab-h');
+		}).on('mouseenter', '.pstudio-albums-slider', function() {
+			pstudio.cursor.$el.addClass('int-grab-h');
 			jQuery(this).on('mouseleave', function() {
-				dvstudios.cursor.$el.removeClass('int-grab-h');
+				pstudio.cursor.$el.removeClass('int-grab-h');
 			});
 		}).on('mouseenter', '.pswp__scroll-wrap', function() {
-			dvstudios.cursor.$el.addClass('int-grab-h');
+			pstudio.cursor.$el.addClass('int-grab-h');
 			jQuery(this).on('mouseleave', function() {
-				dvstudios.cursor.$el.removeClass('int-grab-h');
+				pstudio.cursor.$el.removeClass('int-grab-h');
 			});
-		}).on('mouseenter', '.dvstudios-albums-carousel', function() {
+		}).on('mouseenter', '.pstudio-albums-carousel', function() {
 			if (jQuery(this).hasClass('is-vertical')) {
-				dvstudios.cursor.$el.addClass('int-grab-v');
+				pstudio.cursor.$el.addClass('int-grab-v');
 			} else {
-				dvstudios.cursor.$el.addClass('int-grab-h');
+				pstudio.cursor.$el.addClass('int-grab-h');
 			}
 			jQuery(this).on('mouseleave', function() {
-				dvstudios.cursor.$el.removeClass('int-grab-h int-grab-v');
+				pstudio.cursor.$el.removeClass('int-grab-h int-grab-v');
 			});
 		});
 	},
 	animate: function() {
-		let $this_el = dvstudios.cursor.$el;
-		dvstudios.cursor.currentX += ((dvstudios.cursor.targetX - dvstudios.cursor.currentX) * dvstudios.cursor.easing);
-		dvstudios.cursor.currentY += ((dvstudios.cursor.targetY - dvstudios.cursor.currentY) * dvstudios.cursor.easing);
-		$this_el.css('transform', 'translate3d('+ dvstudios.cursor.currentX +'px, '+ dvstudios.cursor.currentY +'px, 0)');
-		requestAnimationFrame( dvstudios.cursor.animate );
+		let $this_el = pstudio.cursor.$el;
+		pstudio.cursor.currentX += ((pstudio.cursor.targetX - pstudio.cursor.currentX) * pstudio.cursor.easing);
+		pstudio.cursor.currentY += ((pstudio.cursor.targetY - pstudio.cursor.currentY) * pstudio.cursor.easing);
+		$this_el.css('transform', 'translate3d('+ pstudio.cursor.currentX +'px, '+ pstudio.cursor.currentY +'px, 0)');
+		requestAnimationFrame( pstudio.cursor.animate );
 	}
 };
-dvstudios.cursor.init();
+pstudio.cursor.init();
 
 // Lightbox
-if ( jQuery('.dvstudios-lightbox-link').length ) {
-	dvstudios.pswp = {
+if ( jQuery('.pstudio-lightbox-link').length ) {
+	pstudio.pswp = {
 		gallery : Array(),
 		html : jQuery('\
 		<!-- Root element of PhotoSwipe. Must have class pswp. -->\
@@ -279,18 +279,18 @@ if ( jQuery('.dvstudios-lightbox-link').length ) {
 					</div><!-- .pswp__caption -->\
 				</div><!-- .pswp__ui pswp__ui--hidden -->\
 			</div><!-- .pswp__scroll-wrap -->\
-		</div><!-- .pswp -->').appendTo($dvstudios_body)
+		</div><!-- .pswp -->').appendTo($pstudio_body)
 	};
 }
 
-// dvstudios Kenburns
-if (jQuery('.dvstudios-kenburns-slider').length) {
-	dvstudios.kenburns = {
+// pstudio Kenburns
+if (jQuery('.pstudio-kenburns-slider').length) {
+	pstudio.kenburns = {
 		init: function() {
 			// Set Variables
 			let this_f = this;
-			this_f.$el = jQuery('.dvstudios-kenburns-slider');
-			this_f.items = this_f.$el.find('.dvstudios-kenburns-slide').length;
+			this_f.$el = jQuery('.pstudio-kenburns-slider');
+			this_f.items = this_f.$el.find('.pstudio-kenburns-slide').length;
 			this_f.transition = parseInt(this_f.$el.data('transition'),10);
 			this_f.delay = parseInt(this_f.$el.data('delay'), 10)/1000 + this_f.transition*0.001;
 			this_f.zoom = this_f.$el.data('zoom');
@@ -302,7 +302,7 @@ if (jQuery('.dvstudios-kenburns-slider').length) {
 			let prev_offset_x = 0,
 				prev_offset_y = 0;
 
-			this_f.$el.find('.dvstudios-kenburns-slide').each(function() {
+			this_f.$el.find('.pstudio-kenburns-slide').each(function() {
 				let offset_x = Math.random() * 100,
 					offset_y = Math.random() * 100;
 
@@ -328,7 +328,7 @@ if (jQuery('.dvstudios-kenburns-slider').length) {
 			});
 
 			// Run Slider
-			dvstudios.kenburns.change();
+			pstudio.kenburns.change();
 		},
 		change: function() {
 			let this_f = this,
@@ -339,7 +339,7 @@ if (jQuery('.dvstudios-kenburns-slider').length) {
 			if (this_f.active >= this_f.items) {
 				this_f.active = 0;
 			}
-			let current_slide = this_f.$el.find('.dvstudios-kenburns-slide').eq(this_f.active);
+			let current_slide = this_f.$el.find('.pstudio-kenburns-slide').eq(this_f.active);
 
 			gsap.fromTo(current_slide, {
 				scale: scale_from,
@@ -352,11 +352,11 @@ if (jQuery('.dvstudios-kenburns-slider').length) {
 				duration: this_f.delay,
 				ease: 'none',
 				onComplete: function() {
-					dvstudios.kenburns.active++;
-					dvstudios.kenburns.from = scale_to;
-					dvstudios.kenburns.to = scale_from;
-					dvstudios.kenburns.change();
-					dvstudios.kenburns.$el.find('.is-active').removeClass('is-active');
+					pstudio.kenburns.active++;
+					pstudio.kenburns.from = scale_to;
+					pstudio.kenburns.to = scale_from;
+					pstudio.kenburns.change();
+					pstudio.kenburns.$el.find('.is-active').removeClass('is-active');
 				}
 			});
 		}
@@ -364,7 +364,7 @@ if (jQuery('.dvstudios-kenburns-slider').length) {
 }
 
 // Counter
-dvstudios.counter = function( this_el ) {
+pstudio.counter = function( this_el ) {
 	jQuery(this_el).prop('Counter', 0).animate({
 		Counter: jQuery(this_el).text()
 	}, {
@@ -377,29 +377,29 @@ dvstudios.counter = function( this_el ) {
 }
 
 // Circle Progress Bar
-dvstudios.progress = {
+pstudio.progress = {
 	init: function(this_el) {
 		let $this = jQuery(this_el),
-			$bar_wrap = jQuery('<div class="dvstudios-progress-item-wrap"/>')
+			$bar_wrap = jQuery('<div class="pstudio-progress-item-wrap"/>')
 						.prependTo($this),
 			this_size = this.getSize(this_el),
 			$bar_svg = jQuery('\
 				<svg width="'+ this_size.svgSize +'" height="'+ this_size.svgSize +'" viewPort="0 0 '+ this_size.barSize +' '+ this_size.barSize +'" version="1.1" xmlns="http://www.w3.org/2000/svg">\
-					<circle class="dvstudios-progress-circle--bg" r="'+ this_size.r +'" cx="'+ this_size.barSize +'" cy="'+ this_size.barSize +'" fill="transparent" stroke-dasharray="'+ this_size.dashArray +'" stroke-dashoffset="0"></circle>\
-					<circle class="dvstudios-progress-circle--bar" transform="rotate(-90, '+ this_size.barSize +', '+ this_size.barSize +')" r="'+ this_size.r +'" cx="'+ this_size.barSize +'" cy="'+ this_size.barSize +'" fill="transparent" stroke-dasharray="'+ this_size.dashArray +'" stroke-dashoffset="'+ this_size.dashArray +'"></circle>\
+					<circle class="pstudio-progress-circle--bg" r="'+ this_size.r +'" cx="'+ this_size.barSize +'" cy="'+ this_size.barSize +'" fill="transparent" stroke-dasharray="'+ this_size.dashArray +'" stroke-dashoffset="0"></circle>\
+					<circle class="pstudio-progress-circle--bar" transform="rotate(-90, '+ this_size.barSize +', '+ this_size.barSize +')" r="'+ this_size.r +'" cx="'+ this_size.barSize +'" cy="'+ this_size.barSize +'" fill="transparent" stroke-dasharray="'+ this_size.dashArray +'" stroke-dashoffset="'+ this_size.dashArray +'"></circle>\
 				</svg>').appendTo($bar_wrap);
-			$bar_svg.find('.dvstudios-progress-circle--bar').css('transition', 'stroke-dashoffset ' + $this.data('delay')+'ms ease-in-out');
-			$bar_wrap.append('<span class="dvstudios-progress-counter">' + $this.data('percent') + '</span>');
+			$bar_svg.find('.pstudio-progress-circle--bar').css('transition', 'stroke-dashoffset ' + $this.data('delay')+'ms ease-in-out');
+			$bar_wrap.append('<span class="pstudio-progress-counter">' + $this.data('percent') + '</span>');
 
-		$dvstudios_window.on('resize', this.layout(this_el));
+		$pstudio_window.on('resize', this.layout(this_el));
 	},
 	layout: function(this_el) {
 		let $this = jQuery(this_el);
 		if ($this.find('svg').length) {
 			let this_size = this.getSize(this_el),
 				$svg = $this.find('svg'),
-				$barBg = $this.find('.dvstudios-progress-circle--bg'),
-				$bar = $this.find('.dvstudios-progress-circle--bar');
+				$barBg = $this.find('.pstudio-progress-circle--bg'),
+				$bar = $this.find('.pstudio-progress-circle--bar');
 			$svg.attr('width', this_size.svgSize)
 				.attr('height', this_size.svgSize)
 				.attr('viewPort', '0 0 '+ this_size.barSize +' '+ this_size.barSize);
@@ -424,7 +424,7 @@ dvstudios.progress = {
 	},
 	getSize: function(this_el) {
 		let $this = jQuery(this_el),
-			$wrap = $this.find('.dvstudios-progress-item-wrap'),
+			$wrap = $this.find('.pstudio-progress-item-wrap'),
 			sizes = {
 				percent: parseInt($this.data('percent'), 10),
 				svgSize: $wrap.width(),
@@ -439,14 +439,14 @@ dvstudios.progress = {
 	},
 	animate: function(this_el) {
 		let $this = jQuery(this_el),
-			$this_counter = $this.find('span.dvstudios-progress-counter'),
+			$this_counter = $this.find('span.pstudio-progress-counter'),
 			this_size = this.getSize(this_el),
-			$bar = $this.find('.dvstudios-progress-circle--bar');
+			$bar = $this.find('.pstudio-progress-circle--bar');
 		$bar.css('stroke-dashoffset', this_size.dashOffset);
 		$this_counter.prop('Counter', 0).animate({
 			Counter: $this_counter.text()
 		}, {
-			duration: parseInt($this_counter.parents('.dvstudios-progress-item').data('delay'), 10),
+			duration: parseInt($this_counter.parents('.pstudio-progress-item').data('delay'), 10),
 			easing: 'swing',
 			step: function (now) {
 				$this_counter.text(Math.ceil(now)+'%');
@@ -456,12 +456,12 @@ dvstudios.progress = {
 	}
 }
 if ('IntersectionObserver' in window) {
-	dvstudios.progress.observer = new IntersectionObserver((entries) => {
+	pstudio.progress.observer = new IntersectionObserver((entries) => {
 		entries.forEach((entry) => {
 			if (!jQuery(entry.target).hasClass('is-done')) {
 				if(entry.isIntersecting) {
 					jQuery(entry.target).addClass('is-done');
-					dvstudios.progress.animate(jQuery(entry.target)[0]);
+					pstudio.progress.animate(jQuery(entry.target)[0]);
 				}
 			}
 		});
@@ -469,9 +469,9 @@ if ('IntersectionObserver' in window) {
 }
 
 // Coming Soon Count Down
-dvstudios.count_down = {
+pstudio.count_down = {
 	init : function() {
-		let $dom = jQuery('#dvstudios-coming-soon'),
+		let $dom = jQuery('#pstudio-coming-soon'),
 			datetime = new Date( $dom.find('time').text() + 'T00:00:00'),
 			is_this;
 
@@ -479,16 +479,16 @@ dvstudios.count_down = {
 		this.labels = $dom.data('labels');
 		this.days = jQuery('<h2>0</h2>')
 			.appendTo($dom).wrap('<div/>')
-			.after('<span>'+ dvstudios.count_down.labels[0] +'</span>');
+			.after('<span>'+ pstudio.count_down.labels[0] +'</span>');
 		this.hours = jQuery('<h2>0</h2>')
 			.appendTo($dom).wrap('<div/>')
-			.after('<span>'+ dvstudios.count_down.labels[1] +'</span>');
+			.after('<span>'+ pstudio.count_down.labels[1] +'</span>');
 		this.minutes = jQuery('<h2>0</h2>')
 			.appendTo($dom).wrap('<div/>')
-			.after('<span>'+ dvstudios.count_down.labels[2] +'</span>');
+			.after('<span>'+ pstudio.count_down.labels[2] +'</span>');
 		this.seconds = jQuery('<h2>0</h2>')
 			.appendTo($dom).wrap('<div/>')
-			.after('<span>'+ dvstudios.count_down.labels[3] +'</span>');
+			.after('<span>'+ pstudio.count_down.labels[3] +'</span>');
 
 		this.update( datetime );
 
@@ -497,7 +497,7 @@ dvstudios.count_down = {
 		}
 
 		this.interval = setInterval( function() {
-			dvstudios.count_down.update( datetime );
+			pstudio.count_down.update( datetime );
 		}, 1000);
 	},
 	update : function( endDate ) {
@@ -529,89 +529,89 @@ dvstudios.count_down = {
 };
 
 // Smooth Scroll
-dvstudios.old_scroll_top = 0;
-dvstudios.sScroll = {
+pstudio.old_scroll_top = 0;
+pstudio.sScroll = {
 	target: 0,
 	current: 0,
 	animate: function() {
-		dvstudios.sScroll.current += ((dvstudios.sScroll.target - dvstudios.sScroll.current) * dvstudios.config.smooth_ease);
-		$dvstudios_scroll.css('transform', 'translate3d(0, -'+ dvstudios.sScroll.current +'px, 0)');
+		pstudio.sScroll.current += ((pstudio.sScroll.target - pstudio.sScroll.current) * pstudio.config.smooth_ease);
+		$pstudio_scroll.css('transform', 'translate3d(0, -'+ pstudio.sScroll.current +'px, 0)');
 
-		if ($dvstudios_scroll.height() !== $dvstudios_body.height()) {
-			dvstudios.sScroll.layout();
+		if ($pstudio_scroll.height() !== $pstudio_body.height()) {
+			pstudio.sScroll.layout();
 		}
 
-		requestAnimationFrame( dvstudios.sScroll.animate );
+		requestAnimationFrame( pstudio.sScroll.animate );
 	},
 	layout: function() {
-		if ($dvstudios_scroll.length) {
-			let this_content = $dvstudios_scroll.children('.dvstudios-content');
+		if ($pstudio_scroll.length) {
+			let this_content = $pstudio_scroll.children('.pstudio-content');
 			this_content.css('min-height', '0px');
 
 			// Set Body Height (for smooth scroll)
-			if ($dvstudios_scroll.height() <= $dvstudios_window.height()) {
-				let min_height = $dvstudios_window.height() - $dvstudios_footer.height();
+			if ($pstudio_scroll.height() <= $pstudio_window.height()) {
+				let min_height = $pstudio_window.height() - $pstudio_footer.height();
 
-				if (!$dvstudios_body.hasClass('no-header-padding'))
-					min_height = min_height - $dvstudios_scroll.children('.dvstudios-header-holder').height();
+				if (!$pstudio_body.hasClass('no-header-padding'))
+					min_height = min_height - $pstudio_scroll.children('.pstudio-header-holder').height();
 
 				this_content.css('min-height', min_height+'px');
-				$dvstudios_scroll.addClass('is-centered');
+				$pstudio_scroll.addClass('is-centered');
 			} else {
-				$dvstudios_scroll.removeClass('is-centered');
+				$pstudio_scroll.removeClass('is-centered');
 			}
-			if ($dvstudios_body.hasClass('dvstudios-smooth-scroll')) {
-				$dvstudios_body.height($dvstudios_scroll.height());
+			if ($pstudio_body.hasClass('pstudio-smooth-scroll')) {
+				$pstudio_body.height($pstudio_scroll.height());
 			}
 		}
 	}
 };
-if ($dvstudios_scroll.length || $dvstudios_body.hasClass('dvstudios-home-template')) {
-	dvstudios.sScroll.animate();
+if ($pstudio_scroll.length || $pstudio_body.hasClass('pstudio-home-template')) {
+	pstudio.sScroll.animate();
 }
 
-dvstudios.init = function() {
-	$dvstudios_body.addClass('is-init');
-	dvstudios.old_scroll_top = $dvstudios_window.scrollTop();
+pstudio.init = function() {
+	$pstudio_body.addClass('is-init');
+	pstudio.old_scroll_top = $pstudio_window.scrollTop();
 
 	// Contact Form
-	if (jQuery('form.dvstudios-contact-form').length) {
-		jQuery('form.dvstudios-contact-form').each(function() {
+	if (jQuery('form.pstudio-contact-form').length) {
+		jQuery('form.pstudio-contact-form').each(function() {
 			let $this = jQuery(this),
-				$response = $this.find('.dvstudios-contact-form__response'),
+				$response = $this.find('.pstudio-contact-form__response'),
 				formData;
 
 			// Create New Fields
 			$this.find('input').on('change', function() {
-				dvstudios.flocker.field_changed = true;
+				pstudio.flocker.field_changed = true;
 			}).on('keyup', function() {
-				dvstudios.flocker.field_interract = true;
+				pstudio.flocker.field_interract = true;
 			});
 			$this.find('textarea').on('change', function() {
-				dvstudios.flocker.field_changed = true;
+				pstudio.flocker.field_changed = true;
 			}).on('keyup', function(e) {
-				dvstudios.flocker.field_interract = true;
+				pstudio.flocker.field_interract = true;
 			});
 
 			$this.find('input')[0].addEventListener('touchenter', function(e) {
-        		dvstudios.flocker.field_interract = true;
-				dvstudios.flocker.form_interract = true;
+        		pstudio.flocker.field_interract = true;
+				pstudio.flocker.form_interract = true;
     		}, false);
 			$this.find('textarea')[0].addEventListener('touchenter', function(e) {
-        		dvstudios.flocker.field_interract = true;
-				dvstudios.flocker.form_interract = true;
+        		pstudio.flocker.field_interract = true;
+				pstudio.flocker.form_interract = true;
     		}, false);
 
 			this.addEventListener('touchenter', function(e) {
-        		dvstudios.flocker.form_interract = true;
+        		pstudio.flocker.form_interract = true;
     		}, false);
 			$this.on('mouseenter', function() {
-				dvstudios.flocker.form_interract = true;
+				pstudio.flocker.form_interract = true;
 			});
 
 			$this.submit(function(e) {
 				e.preventDefault();
-				if (dvstudios.flocker.form_interract && dvstudios.flocker.field_interract && dvstudios.flocker.field_changed) {
+				if (pstudio.flocker.form_interract && pstudio.flocker.field_interract && pstudio.flocker.field_changed) {
 					$this.addClass('is-in-action');
 					formData = jQuery(this).serialize();
 					jQuery.ajax({
@@ -624,17 +624,17 @@ dvstudios.init = function() {
 						$response.empty().removeClass('alert-danger').addClass('alert-success');
 						$response.html('<span>' + response + '</span>');
 						$this.find('input:not([type="submit"]), textarea').val('');
-						dvstudios.flocker.form_interract  = false;
-						dvstudios.flocker.field_interract = false;
-						dvstudios.flocker.field_changed   = false;
+						pstudio.flocker.form_interract  = false;
+						pstudio.flocker.field_interract = false;
+						pstudio.flocker.field_changed   = false;
 					})
 					.fail(function(data) {
 						$this.removeClass('is-in-action');
 						$response.empty().removeClass('alert-success').addClass('alert-danger');
 						$response.html('<span>' + data.responseText + '</span>');
-						dvstudios.flocker.form_interract  = false;
-						dvstudios.flocker.field_interract = false;
-						dvstudios.flocker.field_changed   = false;
+						pstudio.flocker.form_interract  = false;
+						pstudio.flocker.field_interract = false;
+						pstudio.flocker.field_changed   = false;
 					});
 				} else {
 					if ($this.attr('data-spam-message')) {
@@ -642,9 +642,9 @@ dvstudios.init = function() {
 					} else {
 						var spam_message = '<span>No user actions detected. Look like a spam bot.</span>';
 					}
-					dvstudios.flocker.form_interract  = false;
-					dvstudios.flocker.field_interract = false;
-					dvstudios.flocker.field_changed   = false;
+					pstudio.flocker.form_interract  = false;
+					pstudio.flocker.field_interract = false;
+					pstudio.flocker.field_changed   = false;
 					$this.find('input:not([type="submit"]), textarea').val('');
 					$response.empty().removeClass('alert-success').addClass('alert-danger');
 					$response.html(spam_message);
@@ -654,12 +654,12 @@ dvstudios.init = function() {
 	}
 
 	// Header Holder
-	$dvstudios_header_holder = jQuery('<div class="dvstudios-header-holder"></div>');
-	$dvstudios_header_holder.height($dvstudios_header.height()).prependTo($dvstudios_scroll);
+	$pstudio_header_holder = jQuery('<div class="pstudio-header-holder"></div>');
+	$pstudio_header_holder.height($pstudio_header.height()).prependTo($pstudio_scroll);
 
 	// Set Logo Size
-	if (jQuery('a.dvstudios-logo').length) {
-		jQuery('a.dvstudios-logo').each(function() {
+	if (jQuery('a.pstudio-logo').length) {
+		jQuery('a.pstudio-logo').each(function() {
 			let $this = jQuery(this),
 				$img = $this.children('img'),
 				w = $img.attr('width'),
@@ -680,44 +680,44 @@ dvstudios.init = function() {
 	}
 
 	// Mobile DOM Construct
-	if (jQuery('.dvstudios-page-title-wrap').length) {
-		if (jQuery('.dvstudios-content-wrap .dvstudios-content').length) {
-			let dvstudios_mobile_title = jQuery('<div class="dvstudios-mobile-title-wrap">' + jQuery('.dvstudios-page-title-wrap').html() + '</div>');
-			jQuery('.dvstudios-content-wrap .dvstudios-content').prepend(dvstudios_mobile_title);
+	if (jQuery('.pstudio-page-title-wrap').length) {
+		if (jQuery('.pstudio-content-wrap .pstudio-content').length) {
+			let pstudio_mobile_title = jQuery('<div class="pstudio-mobile-title-wrap">' + jQuery('.pstudio-page-title-wrap').html() + '</div>');
+			jQuery('.pstudio-content-wrap .pstudio-content').prepend(pstudio_mobile_title);
 		}
 	}
-	let dvstudios_mobile_header = jQuery('<div class="dvstudios-mobile-header">'),
-		mobile_menu_button = jQuery('<a href="#" class="dvstudios-mobile-menu-button"><i class="la la-bars"></i></a>').appendTo(dvstudios_mobile_header),
-		mobile_menu = jQuery('<nav class="dvstudios-mobile-menu"></nav>').appendTo($dvstudios_body),
-		mobile_menu_close = jQuery('<a href="#" class="dvstudios-mobile-menu-close"></a>').appendTo(mobile_menu);
+	let pstudio_mobile_header = jQuery('<div class="pstudio-mobile-header">'),
+		mobile_menu_button = jQuery('<a href="#" class="pstudio-mobile-menu-button"><i class="la la-bars"></i></a>').appendTo(pstudio_mobile_header),
+		mobile_menu = jQuery('<nav class="pstudio-mobile-menu"></nav>').appendTo($pstudio_body),
+		mobile_menu_close = jQuery('<a href="#" class="pstudio-mobile-menu-close"></a>').appendTo(mobile_menu);
 
-	if (jQuery('.dvstudios-aside-overlay').length) {
-		dvstudios_mobile_header.append('\
-			<a class="dvstudios-aside-toggler" href="#">\
-				<span class="dvstudios-aside-toggler__icon01"></span>\
-				<span class="dvstudios-aside-toggler__icon02"></span>\
-				<span class="dvstudios-aside-toggler__icon03"></span>\
+	if (jQuery('.pstudio-aside-overlay').length) {
+		pstudio_mobile_header.append('\
+			<a class="pstudio-aside-toggler" href="#">\
+				<span class="pstudio-aside-toggler__icon01"></span>\
+				<span class="pstudio-aside-toggler__icon02"></span>\
+				<span class="pstudio-aside-toggler__icon03"></span>\
 			</a>');
 	}
 
 	// Mobile Meintenance Email
-	if ($dvstudios_body.hasClass('dvstudios-maintenance-wrap')) {
-		dvstudios_mobile_header.prepend('<a class="dvstudios-contacts-toggler" href="#"><i class="la la-envelope"></i></a>');
-		jQuery(document).on('click', '.dvstudios-contacts-toggler', function() {
-			$dvstudios_body.addClass('contacts-shown');
+	if ($pstudio_body.hasClass('pstudio-maintenance-wrap')) {
+		pstudio_mobile_header.prepend('<a class="pstudio-contacts-toggler" href="#"><i class="la la-envelope"></i></a>');
+		jQuery(document).on('click', '.pstudio-contacts-toggler', function() {
+			$pstudio_body.addClass('contacts-shown');
 		});
-		jQuery(document).on('click', '.dvstudios-contacts-close', function() {
-			$dvstudios_body.removeClass('contacts-shown');
+		jQuery(document).on('click', '.pstudio-contacts-close', function() {
+			$pstudio_body.removeClass('contacts-shown');
 		});
 	}
 
-	$dvstudios_header.find('.dvstudios-nav-block').append(dvstudios_mobile_header);
+	$pstudio_header.find('.pstudio-nav-block').append(pstudio_mobile_header);
 
-	if ($dvstudios_header.find('.dvstudios-nav').length) {
+	if ($pstudio_header.find('.pstudio-nav').length) {
 		mobile_menu.append('\
-			<div class="dvstudios-mobile-menu-inner">\
-				<div class="dvstudios-mobile-menu-content">\
-					'+ $dvstudios_header.find('.dvstudios-nav').html() +'\
+			<div class="pstudio-mobile-menu-inner">\
+				<div class="pstudio-mobile-menu-content">\
+					'+ $pstudio_header.find('.pstudio-nav').html() +'\
 				</div>\
 			</div>\
 		');
@@ -733,9 +733,9 @@ dvstudios.init = function() {
 	}
 
 	mobile_menu_button.on('click', function() {
-		$dvstudios_body.addClass('dvstudios-mobile-menu-shown').addClass('is-locked');
-		dvstudios.old_scroll_top = $dvstudios_window.scrollTop();
-		gsap.fromTo('.dvstudios-mobile-menu ul.main-menu > li',
+		$pstudio_body.addClass('pstudio-mobile-menu-shown').addClass('is-locked');
+		pstudio.old_scroll_top = $pstudio_window.scrollTop();
+		gsap.fromTo('.pstudio-mobile-menu ul.main-menu > li',
 			{
 				x: 0,
 				y: 40,
@@ -749,7 +749,7 @@ dvstudios.init = function() {
 				delay: 0.3,
 				stagger: 0.1,
 				onComplete: function() {
-					$dvstudios_body.removeClass('is-locked');
+					$pstudio_body.removeClass('is-locked');
 				}
 			},
 		);
@@ -757,12 +757,12 @@ dvstudios.init = function() {
 
 	mobile_menu_close.on('click', function() {
 		let setDelay = 0;
-		$dvstudios_body.addClass('is-locked');
+		$pstudio_body.addClass('is-locked');
 		if (mobile_menu.find('.is-open').length) {
 			mobile_menu.find('ul.sub-menu').slideUp(300);
 			setDelay = 0.3;
 		}
-		gsap.fromTo('.dvstudios-mobile-menu ul.main-menu > li',
+		gsap.fromTo('.pstudio-mobile-menu ul.main-menu > li',
 			{
 				x: 0,
 				y: 0,
@@ -776,60 +776,60 @@ dvstudios.init = function() {
 				delay: setDelay,
 				stagger: 0.1,
 				onComplete: function() {
-					$dvstudios_body.removeClass('dvstudios-mobile-menu-shown').removeClass('is-locked');
+					$pstudio_body.removeClass('pstudio-mobile-menu-shown').removeClass('is-locked');
 				}
 			},
 		);
 	});
 
-	jQuery('.dvstudios-menu-overlay').on('click', function() {
-		$dvstudios_body.removeClass('dvstudios-mobile-menu-shown').removeClass('is-locked');
+	jQuery('.pstudio-menu-overlay').on('click', function() {
+		$pstudio_body.removeClass('pstudio-mobile-menu-shown').removeClass('is-locked');
 	});
 
 	// Aside Open and Close
-	jQuery(document).on('click', 'a.dvstudios-aside-toggler', function(e) {
+	jQuery(document).on('click', 'a.pstudio-aside-toggler', function(e) {
 		e.preventDefault();
-		$dvstudios_body.addClass('dvstudios-aside-shown').removeClass('dvstudios-menu-fade');
-		dvstudios.old_scroll_top = $dvstudios_window.scrollTop();
+		$pstudio_body.addClass('pstudio-aside-shown').removeClass('pstudio-menu-fade');
+		pstudio.old_scroll_top = $pstudio_window.scrollTop();
 	});
-	jQuery('a.dvstudios-aside-close').on('click', function(e) {
+	jQuery('a.pstudio-aside-close').on('click', function(e) {
 		e.preventDefault();
-		$dvstudios_body.removeClass('dvstudios-aside-shown');
+		$pstudio_body.removeClass('pstudio-aside-shown');
 	});
-	jQuery('.dvstudios-aside-overlay').on('click', function() {
-		$dvstudios_body.removeClass('dvstudios-aside-shown');
+	jQuery('.pstudio-aside-overlay').on('click', function() {
+		$pstudio_body.removeClass('pstudio-aside-shown');
 	});
 
     // Main Nav Events
-    jQuery('nav.dvstudios-nav a').on( 'mouseenter', function() {
-        $dvstudios_body.addClass('dvstudios-menu-fade');
+    jQuery('nav.pstudio-nav a').on( 'mouseenter', function() {
+        $pstudio_body.addClass('pstudio-menu-fade');
     });
-    jQuery('nav.dvstudios-nav').on( 'mouseleave', function() {
-        $dvstudios_body.removeClass('dvstudios-menu-fade');
+    jQuery('nav.pstudio-nav').on( 'mouseleave', function() {
+        $pstudio_body.removeClass('pstudio-menu-fade');
     });
 
 	// Back Button Functions
-	jQuery('.dvstudios-back').on('click', function(e) {
+	jQuery('.pstudio-back').on('click', function(e) {
 		e.preventDefault();
 		var $this = jQuery(this);
 
 		// Back to Top
 		if ($this.hasClass('is-to-top')) {
-			if ($dvstudios_window.scrollTop() > $dvstudios_window.height()/2) {
-				$dvstudios_body.addClass('has-to-top');
+			if ($pstudio_window.scrollTop() > $pstudio_window.height()/2) {
+				$pstudio_body.addClass('has-to-top');
 			}
 			$this.addClass('in-action');
 
-			if (jQuery('.dvstudios-albums-carousel').length) {
-				dvstudios_ribbon.target = 0;
-				dvstudios_ribbon.currentStep = 0;
+			if (jQuery('.pstudio-albums-carousel').length) {
+				pstudio_ribbon.target = 0;
+				pstudio_ribbon.currentStep = 0;
 				setTimeout(function() {
-					$dvstudios_body.removeClass('has-to-top');
+					$pstudio_body.removeClass('has-to-top');
 					$this.removeClass('in-action');
 				},300, $this);
 			} else {
 				jQuery('html, body').stop().animate({scrollTop: 0}, 500, function() {
-					$dvstudios_body.removeClass('has-to-top');
+					$pstudio_body.removeClass('has-to-top');
 					$this.removeClass('in-action');
 				});
 			}
@@ -837,68 +837,68 @@ dvstudios.init = function() {
 
 		// Maintenace Mode - Write Message
 		if ($this.hasClass('is-message')) {
-			$dvstudios_body.addClass('is-locked in-message-mode');
+			$pstudio_body.addClass('is-locked in-message-mode');
 			$this.parent().removeClass('is-loaded');
-			gsap.to('.dvstudios-content-wrap .dvstudios-content', {
+			gsap.to('.pstudio-content-wrap .pstudio-content', {
 				opacity: 0,
 				y: -150,
 				duration: 0.7,
 				onComplete: function() {
-					jQuery('.dvstudios-back-wrap .is-message').hide();
-					jQuery('.dvstudios-back-wrap .is-message-close').show();
+					jQuery('.pstudio-back-wrap .is-message').hide();
+					jQuery('.pstudio-back-wrap .is-message-close').show();
 				}
 			});
-			gsap.to('.dvstudios-page-background', {
+			gsap.to('.pstudio-page-background', {
 				opacity: 0,
 				scale: 1.05,
 				duration: 1,
 			});
-			gsap.to('#dvstudios-contacts-wrap', {
+			gsap.to('#pstudio-contacts-wrap', {
 				opacity: 1,
 				y: 0,
 				duration: 0.7,
 				delay: 0.3,
 				onComplete: function() {
-					$dvstudios_body.removeClass('is-locked');
-					jQuery('.dvstudios-back-wrap').addClass('is-loaded');
+					$pstudio_body.removeClass('is-locked');
+					jQuery('.pstudio-back-wrap').addClass('is-loaded');
 				}
 			});
 		}
 
 		// Maintenace Mode - Close Message
 		if ($this.hasClass('is-message-close')) {
-			$dvstudios_body.addClass('is-locked').removeClass('in-message-mode');
+			$pstudio_body.addClass('is-locked').removeClass('in-message-mode');
 			$this.parent().removeClass('is-loaded');
-			gsap.to('#dvstudios-contacts-wrap', {
+			gsap.to('#pstudio-contacts-wrap', {
 				opacity: 0,
 				y: 150,
 				duration: 0.7,
 				onComplete: function() {
-					jQuery('.dvstudios-back-wrap .is-message').show();
-					jQuery('.dvstudios-back-wrap .is-message-close').hide();
+					jQuery('.pstudio-back-wrap .is-message').show();
+					jQuery('.pstudio-back-wrap .is-message-close').hide();
 				}
 			});
-			gsap.to('.dvstudios-page-background', {
+			gsap.to('.pstudio-page-background', {
 				opacity: 0.13,
 				scale: 1,
 				duration: 1,
 			});
-			gsap.to('.dvstudios-content-wrap .dvstudios-content', {
+			gsap.to('.pstudio-content-wrap .pstudio-content', {
 				opacity: 1,
 				y: 0,
 				duration: 1,
 				delay: 0.3,
 				onComplete: function() {
-					$dvstudios_body.removeClass('is-locked');
-					jQuery('.dvstudios-back-wrap').addClass('is-loaded');
+					$pstudio_body.removeClass('is-locked');
+					jQuery('.pstudio-back-wrap').addClass('is-loaded');
 				}
 			});
 		}
 
 		// Home Return
 		if ($this.hasClass('is-home-return')) {
-			$dvstudios_body.addClass('is-locked');
-			gsap.fromTo('.dvstudios-content', 1, {
+			$pstudio_body.addClass('is-locked');
+			gsap.fromTo('.pstudio-content', 1, {
 				y: 0,
 				opacity: 1,
 			},
@@ -907,152 +907,152 @@ dvstudios.init = function() {
 				opacity: 0,
 				duration: 1,
 				onComplete: function() {
-					if ($dvstudios_scroll.find('#dvstudios-home-works').length) {
-						var $current_content = jQuery('#dvstudios-home-works');
+					if ($pstudio_scroll.find('#pstudio-home-works').length) {
+						var $current_content = jQuery('#pstudio-home-works');
 					}
-					if ($dvstudios_scroll.find('#dvstudios-home-contacts').length) {
-						var $current_content = jQuery('#dvstudios-home-contacts');
+					if ($pstudio_scroll.find('#pstudio-home-contacts').length) {
+						var $current_content = jQuery('#pstudio-home-contacts');
 					}
 					for (var i = 0; i < 4; i++) {
 						$current_content.unwrap();
 					}
-					dvstudios.sScroll.layout();
-					$dvstudios_body.height($dvstudios_window.height());
+					pstudio.sScroll.layout();
+					$pstudio_body.height($pstudio_window.height());
 				}
 			});
 
-			if (jQuery('.dvstudios-page-title-wrap').length) {
-				jQuery('.dvstudios-page-title-wrap').removeClass('is-loaded').addClass('is-inactive');
-				gsap.to('.dvstudios-page-title-wrap', 0.5, {
+			if (jQuery('.pstudio-page-title-wrap').length) {
+				jQuery('.pstudio-page-title-wrap').removeClass('is-loaded').addClass('is-inactive');
+				gsap.to('.pstudio-page-title-wrap', 0.5, {
 					css: {
 						top: 0,
 					},
 					delay: 0.5,
 				});
 			}
-			if (jQuery('.dvstudios-back-wrap').length) {
-				jQuery('.dvstudios-back-wrap').removeClass('is-loaded').addClass('is-inactive');
-				gsap.to('.dvstudios-back-wrap', 0.5, {
+			if (jQuery('.pstudio-back-wrap').length) {
+				jQuery('.pstudio-back-wrap').removeClass('is-loaded').addClass('is-inactive');
+				gsap.to('.pstudio-back-wrap', 0.5, {
 					css: {
 						top: '200%',
 					},
 					delay: 0.5,
 				});
 			}
-			gsap.to('.dvstudios-home-link--works', 0.5, {
+			gsap.to('.pstudio-home-link--works', 0.5, {
 				css: {
 					top: '100%',
 				},
 				delay: 1,
 				onComplete: function() {
-					jQuery('.dvstudios-home-link--works').addClass('is-loaded').removeClass('is-inactive');
+					jQuery('.pstudio-home-link--works').addClass('is-loaded').removeClass('is-inactive');
 				}
 			});
-			gsap.to('.dvstudios-home-link--contacts', 0.5, {
+			gsap.to('.pstudio-home-link--contacts', 0.5, {
 				css: {
 					top: '100%',
 				},
 				delay: 1,
 				onComplete: function() {
-					jQuery('.dvstudios-home-link--contacts').addClass('is-loaded').removeClass('is-inactive');
+					jQuery('.pstudio-home-link--contacts').addClass('is-loaded').removeClass('is-inactive');
 				}
 			});
-			gsap.to('.dvstudios-page-background', {
+			gsap.to('.pstudio-page-background', {
 				opacity: 0.75,
 				scale: 1,
 				duration: 1,
 				delay: 1,
 				onComplete: function() {
-					$dvstudios_body.removeClass('dvstudios-content-shown');
-					$dvstudios_body.removeClass('is-locked');
+					$pstudio_body.removeClass('pstudio-content-shown');
+					$pstudio_body.removeClass('is-locked');
 				}
 			});
 		}
 	});
 
 	// Page Background
-	if (jQuery('.dvstudios-page-background[data-src]').length) {
-		jQuery('.dvstudios-page-background[data-src]').each(function() {
+	if (jQuery('.pstudio-page-background[data-src]').length) {
+		jQuery('.pstudio-page-background[data-src]').each(function() {
 			jQuery(this).css('background-image', 'url('+ jQuery(this).data('src') +')');
 		});
 	}
 	// Home Template
-    if ($dvstudios_body.hasClass('dvstudios-home-template')) {
+    if ($pstudio_body.hasClass('pstudio-home-template')) {
 		// Home Links Events
-		jQuery('.dvstudios-home-link').on('mouseenter', function() {
-			$dvstudios_body.addClass('is-faded');
+		jQuery('.pstudio-home-link').on('mouseenter', function() {
+			$pstudio_body.addClass('is-faded');
 		}).on('mouseleave', function() {
-			$dvstudios_body.removeClass('is-faded');
+			$pstudio_body.removeClass('is-faded');
 		}).on('click', function(){
 			var $this = jQuery(this);
-			dvstudios.cursor.$el.removeClass('int-link');
-			$dvstudios_body.removeClass('is-faded').addClass('dvstudios-content-shown');
-			jQuery('.dvstudios-home-link-wrap').addClass('is-inactive');
-			gsap.to('.dvstudios-page-background', {
+			pstudio.cursor.$el.removeClass('int-link');
+			$pstudio_body.removeClass('is-faded').addClass('pstudio-content-shown');
+			jQuery('.pstudio-home-link-wrap').addClass('is-inactive');
+			gsap.to('.pstudio-page-background', {
 				opacity: 0.1,
 				scale: 1.05,
 				duration: 1,
 				delay: 0.5,
 			});
-			gsap.to('.dvstudios-home-link--works', 0.5, {
+			gsap.to('.pstudio-home-link--works', 0.5, {
 				css: {
 					top: 0,
 				},
 				delay: 0.5,
 			});
-			gsap.to('.dvstudios-home-link--contacts', 0.5, {
+			gsap.to('.pstudio-home-link--contacts', 0.5, {
 				css: {
 					top: '200%',
 				},
 				delay: 0.5,
 			});
 
-			jQuery('.dvstudios-page-title').empty().append('<span>' + $this.find('span:first-child').text() + '</span>' + $this.find('span:last-child').text()).removeClass('is-inactive');
-			jQuery('.dvstudios-home-return').removeClass('is-inactive');
+			jQuery('.pstudio-page-title').empty().append('<span>' + $this.find('span:first-child').text() + '</span>' + $this.find('span:last-child').text()).removeClass('is-inactive');
+			jQuery('.pstudio-home-return').removeClass('is-inactive');
 
-			gsap.to('.dvstudios-page-title-wrap', 0.5, {
+			gsap.to('.pstudio-page-title-wrap', 0.5, {
 				css: {
 					top: '100%',
 				},
 				delay: 1,
 				onComplete: function() {
-					jQuery('.dvstudios-page-title-wrap').addClass('is-loaded').removeClass('is-inactive');
+					jQuery('.pstudio-page-title-wrap').addClass('is-loaded').removeClass('is-inactive');
 				}
 			});
-			gsap.to('.dvstudios-back-wrap', 0.5, {
+			gsap.to('.pstudio-back-wrap', 0.5, {
 				css: {
 					top: '100%',
 				},
 				delay: 1,
 				onComplete: function() {
-					jQuery('.dvstudios-back-wrap').addClass('is-loaded').removeClass('is-inactive');
+					jQuery('.pstudio-back-wrap').addClass('is-loaded').removeClass('is-inactive');
 				}
 			});
 
-			if ($this.parent().hasClass('dvstudios-home-link--works')) {
-				var $current_content = jQuery('#dvstudios-home-works');
+			if ($this.parent().hasClass('pstudio-home-link--works')) {
+				var $current_content = jQuery('#pstudio-home-works');
 			}
-			if ($this.parent().hasClass('dvstudios-home-link--contacts')) {
-				var $current_content = jQuery('#dvstudios-home-contacts');
+			if ($this.parent().hasClass('pstudio-home-link--contacts')) {
+				var $current_content = jQuery('#pstudio-home-contacts');
 			}
 
 			$current_content.wrap('\
-				<main class="dvstudios-content-wrap">\
-					<div class="dvstudios-content-scroll">\
-						<div class="dvstudios-content">\
-							<section class="dvstudios-section"></section>\
-						</div><!-- .dvstudios-content -->\
-					</div><!-- .dvstudios-content-scroll -->\
+				<main class="pstudio-content-wrap">\
+					<div class="pstudio-content-scroll">\
+						<div class="pstudio-content">\
+							<section class="pstudio-section"></section>\
+						</div><!-- .pstudio-content -->\
+					</div><!-- .pstudio-content-scroll -->\
 				</main>\
 			');
 
-			if ($dvstudios_body.hasClass('dvstudios-smooth-scroll')) {
-				$dvstudios_scroll = $dvstudios_body.find('.dvstudios-content-scroll');
-				$dvstudios_body.height($dvstudios_scroll.height());
+			if ($pstudio_body.hasClass('pstudio-smooth-scroll')) {
+				$pstudio_scroll = $pstudio_body.find('.pstudio-content-scroll');
+				$pstudio_body.height($pstudio_scroll.height());
 			}
-			dvstudios.layout();
+			pstudio.layout();
 
-			gsap.fromTo('.dvstudios-content', 1, {
+			gsap.fromTo('.pstudio-content', 1, {
 				y: 100,
 				opacity: 0,
 			},
@@ -1078,11 +1078,11 @@ dvstudios.init = function() {
 		} else {
 			if (this_href == '#') {
 				e.preventDefault();
-			} else if ($this.hasClass('dvstudios-lightbox-link')) {
+			} else if ($this.hasClass('pstudio-lightbox-link')) {
 				e.preventDefault();
 			} else if (this_href.length > 1 && this_href[0] !== '#' && !/\.(jpg|png|gif)$/.test(this_href)) {
 				e.preventDefault();
-				dvstudios.change_location(this_href);
+				pstudio.change_location(this_href);
 			}
 		}
 	}).on('mousedown', function(e) {
@@ -1097,28 +1097,28 @@ dvstudios.init = function() {
 	}
 
 	// Init Coming Soon Counter
-	if ( jQuery('#dvstudios-coming-soon').length ) {
-		dvstudios.count_down.init();
+	if ( jQuery('#pstudio-coming-soon').length ) {
+		pstudio.count_down.init();
 	}
 
 	// Before After
-	if (jQuery('.dvstudios-before-after').length) {
-		jQuery('.dvstudios-before-after').each(function() {
-			new dvstudios_Before_After(jQuery(this));
+	if (jQuery('.pstudio-before-after').length) {
+		jQuery('.pstudio-before-after').each(function() {
+			new pstudio_Before_After(jQuery(this));
 		});
 	}
 
 	// Kenburns Sliders
-	if (jQuery('.dvstudios-kenburns-slider').length) {
-		dvstudios.kenburns.init();
+	if (jQuery('.pstudio-kenburns-slider').length) {
+		pstudio.kenburns.init();
 	}
 
 	// Tiny Slider
-	if (jQuery('.dvstudios-tns-container').length) {
-		jQuery('.dvstudios-tns-container').each(function(){
+	if (jQuery('.pstudio-tns-container').length) {
+		jQuery('.pstudio-tns-container').each(function(){
 			let $this = jQuery(this),
 				$parent = $this.parent(),
-				dvstudios_tns_options = {
+				pstudio_tns_options = {
 					container: this,
 					items: 1,
 					axis: 'horizontal',
@@ -1132,59 +1132,59 @@ dvstudios.init = function() {
 					mouseDrag: true,
 				};
 
-			if ($parent.hasClass('dvstudios-testimonials-carousel')) {
-				dvstudios_tns_options.autoHeight = true;
-				dvstudios_tns_options.center = true;
-				dvstudios_tns_options.nav = true;
-				dvstudios_tns_options.loop = true;
-				dvstudios_tns_options.gutter = 40;
+			if ($parent.hasClass('pstudio-testimonials-carousel')) {
+				pstudio_tns_options.autoHeight = true;
+				pstudio_tns_options.center = true;
+				pstudio_tns_options.nav = true;
+				pstudio_tns_options.loop = true;
+				pstudio_tns_options.gutter = 40;
 			}
 
 			// Init
-			dvstudios_tns[$this.attr('id')] = tns(dvstudios_tns_options);
+			pstudio_tns[$this.attr('id')] = tns(pstudio_tns_options);
 
 			// After Init Functions
-			if ($parent.hasClass('dvstudios-testimonials-carousel')) {
-				dvstudios_tns[$this.attr('id')].events.on('transitionEnd', dvstudios.sScroll.layout);
+			if ($parent.hasClass('pstudio-testimonials-carousel')) {
+				pstudio_tns[$this.attr('id')].events.on('transitionEnd', pstudio.sScroll.layout);
 			}
 		});
 	}
 
 	// Counters
-	if (jQuery('.dvstudios-counter-item').length) {
+	if (jQuery('.pstudio-counter-item').length) {
 		if ('IntersectionObserver' in window) {
-			dvstudios.counter_observer = new IntersectionObserver((entries) => {
+			pstudio.counter_observer = new IntersectionObserver((entries) => {
 				entries.forEach((entry) => {
 					if (!jQuery(entry.target).hasClass('is-counted')) {
 						if(entry.isIntersecting) {
 							jQuery(entry.target).addClass('is-counted');
-							dvstudios.counter(jQuery(entry.target).children('.dvstudios-counter-value')[0]);
+							pstudio.counter(jQuery(entry.target).children('.pstudio-counter-value')[0]);
 						}
 					}
 				});
 			});
 		} else {
-			jQuery('.dvstudios-counter-item').each(function() {
+			jQuery('.pstudio-counter-item').each(function() {
 				jQuery(this).addClass('is-counted');
-				dvstudios.counter(jQuery(this).children('.dvstudios-counter-value')[0]);
+				pstudio.counter(jQuery(this).children('.pstudio-counter-value')[0]);
 			});
 		}
 	}
 
 	// Circle Progress Bar Init
-	if (jQuery('.dvstudios-progress-item').length) {
-		jQuery('.dvstudios-progress-item').each(function() {
-			dvstudios.progress.init(this);
+	if (jQuery('.pstudio-progress-item').length) {
+		jQuery('.pstudio-progress-item').each(function() {
+			pstudio.progress.init(this);
 		});
 	}
 
 	// Bricks Gallery
-	if (jQuery('.dvstudios-gallery-bricks.is-2x3').length) {
-		jQuery('.dvstudios-gallery-bricks.is-2x3').each(function() {
+	if (jQuery('.pstudio-gallery-bricks.is-2x3').length) {
+		jQuery('.pstudio-gallery-bricks.is-2x3').each(function() {
 			let $this = jQuery(this),
 				count = 0;
 
-			$this.find('.dvstudios-gallery-item').each(function(){
+			$this.find('.pstudio-gallery-item').each(function(){
 				count++;
 				if (count > 5) {
 					count = 1;
@@ -1208,14 +1208,14 @@ dvstudios.init = function() {
 				console.log('Error Loading ' + element.data('src'));
 			},
 			afterLoad: function(element) {
-            	dvstudios.layout();
+            	pstudio.layout();
         	},
 		});
 	}
 
 	// Justify Gallery
-	if (jQuery('.dvstudios-justified-gallery').length) {
-		jQuery('.dvstudios-justified-gallery').justifiedGallery({
+	if (jQuery('.pstudio-justified-gallery').length) {
+		jQuery('.pstudio-justified-gallery').justifiedGallery({
 			rowHeight : 250,
 			captions: false,
 			lastRow : 'nojustify',
@@ -1224,8 +1224,8 @@ dvstudios.init = function() {
 	}
 
 	// Lightbox
-	if ( jQuery('.dvstudios-lightbox-link').length ) {
-		jQuery('.dvstudios-lightbox-link').each( function() {
+	if ( jQuery('.pstudio-lightbox-link').length ) {
+		jQuery('.pstudio-lightbox-link').each( function() {
 			let $this = jQuery(this),
 				this_item = {},
 				this_gallery = 'default';
@@ -1245,17 +1245,17 @@ dvstudios.init = function() {
 				this_gallery = $this.data('gallery');
 			}
 
-			if ( dvstudios.pswp.gallery[this_gallery] ) {
-				dvstudios.pswp.gallery[this_gallery].push(this_item);
+			if ( pstudio.pswp.gallery[this_gallery] ) {
+				pstudio.pswp.gallery[this_gallery].push(this_item);
 			} else {
-				dvstudios.pswp.gallery[this_gallery] = [];
-				dvstudios.pswp.gallery[this_gallery].push(this_item);
+				pstudio.pswp.gallery[this_gallery] = [];
+				pstudio.pswp.gallery[this_gallery].push(this_item);
 			}
 
-			$this.data('count', dvstudios.pswp.gallery[this_gallery].length - 1);
+			$this.data('count', pstudio.pswp.gallery[this_gallery].length - 1);
 		});
 
-		jQuery(document).on('click', '.dvstudios-lightbox-link', function(e) {
+		jQuery(document).on('click', '.pstudio-lightbox-link', function(e) {
 			e.preventDefault();
 
 			let $this = jQuery(this),
@@ -1278,37 +1278,37 @@ dvstudios.init = function() {
 				this_gallery = $this.data('gallery');
 			}
 
-			dvstudios.pswp.lightbox = new PhotoSwipe($dvstudios_body.find('.pswp')[0], PhotoSwipeUI_Default, dvstudios.pswp.gallery[this_gallery], this_options);
-			dvstudios.pswp.lightbox.init();
+			pstudio.pswp.lightbox = new PhotoSwipe($pstudio_body.find('.pswp')[0], PhotoSwipeUI_Default, pstudio.pswp.gallery[this_gallery], this_options);
+			pstudio.pswp.lightbox.init();
 		});
 	}
 
 	// Spacer
-	jQuery('.dvstudios-spacer').each(function() {
+	jQuery('.pstudio-spacer').each(function() {
 		jQuery(this).height(jQuery(this).data('size'));
 	});
 
-    dvstudios.layout();
-    dvstudios.loading();
+    pstudio.layout();
+    pstudio.loading();
 }
 
-dvstudios.layout = function() {
+pstudio.layout = function() {
 	// Close Mobile Menu (if it don't use)
-	if ($dvstudios_window.width() > 760) {
-		$dvstudios_body.removeClass('dvstudios-mobile-menu-shown');
+	if ($pstudio_window.width() > 760) {
+		$pstudio_body.removeClass('pstudio-mobile-menu-shown');
 	}
 
 	// Header Space Holder
-	if (typeof $dvstudios_header_holder !== 'undefined') {
-		$dvstudios_header_holder.height($dvstudios_header.height());
+	if (typeof $pstudio_header_holder !== 'undefined') {
+		$pstudio_header_holder.height($pstudio_header.height());
 	}
 
 	// Header Padding to Home Template
-	if (jQuery('#dvstudios-home-works').length) {
-		jQuery('#dvstudios-home-works').css('padding-top', $dvstudios_header.height()+'px');
+	if (jQuery('#pstudio-home-works').length) {
+		jQuery('#pstudio-home-works').css('padding-top', $pstudio_header.height()+'px');
 	}
-	if (jQuery('#dvstudios-home-contacts').length) {
-		jQuery('#dvstudios-home-contacts').css('padding-top', $dvstudios_header.height()+'px');
+	if (jQuery('#pstudio-home-contacts').length) {
+		jQuery('#pstudio-home-contacts').css('padding-top', $pstudio_header.height()+'px');
 	}
 
 	// Relayout Masonry items
@@ -1319,13 +1319,13 @@ dvstudios.layout = function() {
 	}
 
 	// Services List Layout
-	if (jQuery('.dvstudios-service-item').length) {
-		jQuery('.dvstudios-service-item').each(function() {
+	if (jQuery('.pstudio-service-item').length) {
+		jQuery('.pstudio-service-item').each(function() {
 			let $this = jQuery(this),
-				$prev = $this.prev('.dvstudios-service-item');
-			if ($dvstudios_window.width() > 1200) {
+				$prev = $this.prev('.pstudio-service-item');
+			if ($pstudio_window.width() > 1200) {
 				if ($prev.length) {
-					var set_y = -1*($prev.height() - $prev.find('.dvstudios-service-item__content').height())/2;
+					var set_y = -1*($prev.height() - $prev.find('.pstudio-service-item__content').height())/2;
 					$this.css('margin-top', set_y +'px');
 				}
 			} else {
@@ -1335,93 +1335,93 @@ dvstudios.layout = function() {
 	}
 
 	// Fullheight Row
-	if (jQuery('.dvstudios-row-fullheight').length) {
-		jQuery('.dvstudios-row-fullheight').each(function() {
+	if (jQuery('.pstudio-row-fullheight').length) {
+		jQuery('.pstudio-row-fullheight').each(function() {
 			var $this = jQuery(this),
-				minHeight = $dvstudios_window.height();
+				minHeight = $pstudio_window.height();
 
 			if ($this.hasClass('exclude-header')) {
-				minHeight = minHeight - $dvstudios_header.height();
+				minHeight = minHeight - $pstudio_header.height();
 			}
 			if ($this.hasClass('exclude-footer')) {
-				minHeight = minHeight - $dvstudios_footer.height();
+				minHeight = minHeight - $pstudio_footer.height();
 			}
 			$this.css('min-height', minHeight+'px');
 		});
 	}
 
     // Dropdown Menu Position
-    $dvstudios_header.find('.dvstudios-menu-offset').removeClass('dvstudios-menu-offset');
+    $pstudio_header.find('.pstudio-menu-offset').removeClass('pstudio-menu-offset');
 
-    $dvstudios_header.find('.sub-menu').each(function() {
+    $pstudio_header.find('.sub-menu').each(function() {
         var $this = jQuery(this),
             this_left = $this.offset().left,
             this_left_full = $this.offset().left + $this.width() + parseInt($this.css('padding-left'), 10) + parseInt($this.css('padding-right'), 10);
 
-		if ( this_left_full > $dvstudios_window.width() ) {
-			$this.addClass('dvstudios-menu-offset');
+		if ( this_left_full > $pstudio_window.width() ) {
+			$this.addClass('pstudio-menu-offset');
 		}
     });
 
 	// Circle Progress Bar
-	if (jQuery('.dvstudios-progress-item').length) {
-		jQuery('.dvstudios-progress-item.is-done').each(function() {
-			dvstudios.progress.layout(this);
+	if (jQuery('.pstudio-progress-item').length) {
+		jQuery('.pstudio-progress-item.is-done').each(function() {
+			pstudio.progress.layout(this);
 		});
 	}
 
 	// Smooth Scroll Functions
-	dvstudios.old_scroll_top = $dvstudios_window.scrollTop();
-	dvstudios.sScroll.layout();
+	pstudio.old_scroll_top = $pstudio_window.scrollTop();
+	pstudio.sScroll.layout();
 }
 
-dvstudios.loading = function() {
+pstudio.loading = function() {
 	// Load Page Title and Guides
-	if (jQuery('.dvstudios-page-title-wrap:not(.is-inactive)').length) {
-		gsap.to('.dvstudios-page-title-wrap:not(.is-inactive)', 0.5, {
+	if (jQuery('.pstudio-page-title-wrap:not(.is-inactive)').length) {
+		gsap.to('.pstudio-page-title-wrap:not(.is-inactive)', 0.5, {
 			css: {
 				top: '100%',
 			},
 			onComplete: function() {
-				jQuery('.dvstudios-page-title-wrap:not(.is-inactive)').addClass('is-loaded');
+				jQuery('.pstudio-page-title-wrap:not(.is-inactive)').addClass('is-loaded');
 			}
 		});
 	}
-	if (jQuery('.dvstudios-back-wrap:not(.is-inactive)').length) {
-		gsap.to('.dvstudios-back-wrap:not(.is-inactive)', 0.5, {
+	if (jQuery('.pstudio-back-wrap:not(.is-inactive)').length) {
+		gsap.to('.pstudio-back-wrap:not(.is-inactive)', 0.5, {
 			css: {
 				top: '100%',
 			},
 			onComplete: function() {
-				jQuery('.dvstudios-back-wrap:not(.is-inactive)').addClass('is-loaded');
+				jQuery('.pstudio-back-wrap:not(.is-inactive)').addClass('is-loaded');
 			}
 		});
 	}
-	if ($dvstudios_body.hasClass('dvstudios-home-template')) {
-		gsap.to('.dvstudios-home-link--works:not(.is-inactive)', 0.5, {
+	if ($pstudio_body.hasClass('pstudio-home-template')) {
+		gsap.to('.pstudio-home-link--works:not(.is-inactive)', 0.5, {
 			css: {
 				top: '100%',
 			},
 			onComplete: function() {
-				jQuery('.dvstudios-home-link--works:not(.is-inactive)').addClass('is-loaded');
+				jQuery('.pstudio-home-link--works:not(.is-inactive)').addClass('is-loaded');
 			}
 		});
-		gsap.to('.dvstudios-home-link--contacts:not(.is-inactive)', 0.5, {
+		gsap.to('.pstudio-home-link--contacts:not(.is-inactive)', 0.5, {
 			css: {
 				top: '100%',
 			},
 			onComplete: function() {
-				jQuery('.dvstudios-home-link--contacts:not(.is-inactive)').addClass('is-loaded');
+				jQuery('.pstudio-home-link--contacts:not(.is-inactive)').addClass('is-loaded');
 			}
 		});
 	}
 
-	let logoDelay = dvstudios.config.content_load_delay;
-	if ($dvstudios_window.width() < 760) {
+	let logoDelay = pstudio.config.content_load_delay;
+	if ($pstudio_window.width() < 760) {
 		logoDelay = 0.1;
 	}
 	// Load Logo
-	gsap.from('.dvstudios-logo', {
+	gsap.from('.pstudio-logo', {
 		x: '-50%',
 		opacity: 0,
 		duration: 0.5,
@@ -1429,7 +1429,7 @@ dvstudios.loading = function() {
 	});
 
 	// Load Mobile Menu
-	gsap.from('.dvstudios-mobile-header > a',
+	gsap.from('.pstudio-mobile-header > a',
 		{
 			x: 10,
 			y: -10,
@@ -1441,38 +1441,38 @@ dvstudios.loading = function() {
 	);
 
 	// Load Menu
-	gsap.from('.dvstudios-nav ul.main-menu > li',
+	gsap.from('.pstudio-nav ul.main-menu > li',
 		{
 			x: -10,
 			y: -10,
 			opacity: 0,
 			duration: 0.2,
-			delay: dvstudios.config.content_load_delay,
+			delay: pstudio.config.content_load_delay,
 			stagger: 0.1
 		},
 	);
 
 	// Footer Socials
-	if (jQuery('.dvstudios-footer__socials').length) {
-		if ($dvstudios_window.width() < 760) {
-			gsap.from('.dvstudios-footer__socials li',
+	if (jQuery('.pstudio-footer__socials').length) {
+		if ($pstudio_window.width() < 760) {
+			gsap.from('.pstudio-footer__socials li',
 				{
 					x: 0,
 					y: 20,
 					opacity: 0,
 					duration: 0.2,
-					delay: dvstudios.config.content_load_delay,
+					delay: pstudio.config.content_load_delay,
 					stagger: 0.1
 				},
 			);
 		} else {
-			gsap.from('.dvstudios-footer__socials li',
+			gsap.from('.pstudio-footer__socials li',
 				{
 					x: -10,
 					y: -10,
 					opacity: 0,
 					duration: 0.2,
-					delay: dvstudios.config.content_load_delay,
+					delay: pstudio.config.content_load_delay,
 					stagger: 0.1
 				},
 			);
@@ -1480,148 +1480,148 @@ dvstudios.loading = function() {
 	}
 
 	// Fotoer Copyright
-	if (jQuery('.dvstudios-footer__copyright').length) {
-		if ($dvstudios_window.width() < 760) {
-			gsap.from('.dvstudios-footer__copyright', {
+	if (jQuery('.pstudio-footer__copyright').length) {
+		if ($pstudio_window.width() < 760) {
+			gsap.from('.pstudio-footer__copyright', {
 				y: 20,
 				opacity: 0,
 				duration: 0.5,
-				delay: dvstudios.config.content_load_delay
+				delay: pstudio.config.content_load_delay
 			});
 		} else {
-			gsap.from('.dvstudios-footer__copyright', {
+			gsap.from('.pstudio-footer__copyright', {
 				x: '50%',
 				opacity: 0,
 				duration: 0.5,
-				delay: dvstudios.config.content_load_delay
+				delay: pstudio.config.content_load_delay
 			});
 		}
 	}
 
 	// Page Background
-	if (jQuery('.dvstudios-page-background').length) {
-		gsap.from('.dvstudios-page-background', {
+	if (jQuery('.pstudio-page-background').length) {
+		gsap.from('.pstudio-page-background', {
 			scale: 1.05,
 			opacity: 0,
 			duration: 1,
-			delay: dvstudios.config.content_load_delay,
+			delay: pstudio.config.content_load_delay,
 		});
 	}
 
 	// Show Content
-	if (jQuery('.dvstudios-content').length) {
-		let contentDelay = dvstudios.config.content_load_delay*1.7;
-		if ($dvstudios_window.width() < 760) {
+	if (jQuery('.pstudio-content').length) {
+		let contentDelay = pstudio.config.content_load_delay*1.7;
+		if ($pstudio_window.width() < 760) {
 			contentDelay = 0.5;
 		}
-		gsap.from('.dvstudios-content', {
+		gsap.from('.pstudio-content', {
 			opacity: 0,
 			y: 100,
 			duration: 1,
 			delay: contentDelay,
 			onStart: function() {
-				dvstudios.content_loaded();
+				pstudio.content_loaded();
 			}
 		});
 	}
 
 	// Show Albums Ribbon Content
-	if (jQuery('.dvstudios-albums-carousel').length) {
-		if (jQuery('.dvstudios-albums-carousel').hasClass('is-vertical')) {
-			gsap.from('.dvstudios-album-item__inner', {
+	if (jQuery('.pstudio-albums-carousel').length) {
+		if (jQuery('.pstudio-albums-carousel').hasClass('is-vertical')) {
+			gsap.from('.pstudio-album-item__inner', {
 				opacity: 0,
 				y: 100,
 				duration: 1,
 				stagger: 0.1,
-				delay: dvstudios.config.content_load_delay*1.7
+				delay: pstudio.config.content_load_delay*1.7
 			});
 		} else {
-			gsap.from('.dvstudios-album-item__inner', {
+			gsap.from('.pstudio-album-item__inner', {
 				opacity: 0,
 				x: 100,
 				duration: 1,
 				stagger: 0.1,
-				delay: dvstudios.config.content_load_delay*1.7
+				delay: pstudio.config.content_load_delay*1.7
 			});
 		}
-		if (dvstudios_ribbon.$bar) {
-			gsap.from(dvstudios_ribbon.$bar[0], {
+		if (pstudio_ribbon.$bar) {
+			gsap.from(pstudio_ribbon.$bar[0], {
 				opacity: 0,
 				y: 20,
 				duration: 1,
-				delay: dvstudios.config.content_load_delay*1.7
+				delay: pstudio.config.content_load_delay*1.7
 			});
 		}
 	}
 
 	// Show Albums Slider Content
-	if (jQuery('.dvstudios-albums-slider').length) {
-		if (jQuery('.dvstudios-album-item__title').length) {
-			gsap.to('.dvstudios-album-item__title', {
+	if (jQuery('.pstudio-albums-slider').length) {
+		if (jQuery('.pstudio-album-item__title').length) {
+			gsap.to('.pstudio-album-item__title', {
 				css: {
 					top: '100%',
 				},
 				delay: 0.5,
 				duration: 1,
 				onComplete: function() {
-					jQuery('.dvstudios-album-item__title').addClass('is-loaded');
+					jQuery('.pstudio-album-item__title').addClass('is-loaded');
 				}
 			});
 		}
-		if (jQuery('.dvstudios-album-item__explore').length) {
-			gsap.to('.dvstudios-album-item__explore', {
+		if (jQuery('.pstudio-album-item__explore').length) {
+			gsap.to('.pstudio-album-item__explore', {
 				css: {
 					top: '100%',
 				},
 				delay: 0.5,
 				duration: 1,
 				onComplete: function() {
-					jQuery('.dvstudios-album-item__explore').addClass('is-loaded');
+					jQuery('.pstudio-album-item__explore').addClass('is-loaded');
 				}
 			});
 		}
-		gsap.fromTo('.dvstudios-slider-prev', {
+		gsap.fromTo('.pstudio-slider-prev', {
 			x: -50,
 		},{
 			x: 0,
-			delay: dvstudios.config.content_load_delay*1.7,
+			delay: pstudio.config.content_load_delay*1.7,
 			duration: 0.5,
 			onStart: function() {
-				jQuery('.dvstudios-slider-prev').addClass('is-loaded');
+				jQuery('.pstudio-slider-prev').addClass('is-loaded');
 			}
 		});
-		gsap.fromTo('.dvstudios-slider-next', {
+		gsap.fromTo('.pstudio-slider-next', {
 			x: 50,
 		},{
 			x: 0,
-			delay: dvstudios.config.content_load_delay*1.7,
+			delay: pstudio.config.content_load_delay*1.7,
 			duration: 0.5,
 			onStart: function() {
-				jQuery('.dvstudios-slider-next').addClass('is-loaded');
+				jQuery('.pstudio-slider-next').addClass('is-loaded');
 			}
 		});
-		gsap.from('.dvstudios-album-item__image', {
+		gsap.from('.pstudio-album-item__image', {
 			scale: 1.05,
 			opacity: 0,
 			duration: 1,
-			delay: dvstudios.config.content_load_delay*1.7,
+			delay: pstudio.config.content_load_delay*1.7,
 		});
 	}
 
-	setTimeout("$dvstudios_body.addClass('is-loaded')", 1500);
+	setTimeout("$pstudio_body.addClass('is-loaded')", 1500);
 }
 
-dvstudios.change_location = function(this_href) {
-	dvstudios.cursor.$el.addClass('is-unloading');
-	$dvstudios_body.addClass('is-locked');
-	if ($dvstudios_window.width() < 760 && $dvstudios_body.hasClass('dvstudios-mobile-menu-shown')) {
+pstudio.change_location = function(this_href) {
+	pstudio.cursor.$el.addClass('is-unloading');
+	$pstudio_body.addClass('is-locked');
+	if ($pstudio_window.width() < 760 && $pstudio_body.hasClass('pstudio-mobile-menu-shown')) {
 		let setDelay = 0;
-		$dvstudios_body.addClass('is-locked');
-		if (jQuery('.dvstudios-mobile-menu').find('.is-open').length) {
-			jQuery('.dvstudios-mobile-menu').find('ul.sub-menu').slideUp(300);
+		$pstudio_body.addClass('is-locked');
+		if (jQuery('.pstudio-mobile-menu').find('.is-open').length) {
+			jQuery('.pstudio-mobile-menu').find('ul.sub-menu').slideUp(300);
 			setDelay = 0.3;
 		}
-		gsap.fromTo('.dvstudios-mobile-menu ul.main-menu > li',
+		gsap.fromTo('.pstudio-mobile-menu ul.main-menu > li',
 			{
 				x: 0,
 				y: 0,
@@ -1641,16 +1641,16 @@ dvstudios.change_location = function(this_href) {
 		);
 		return false;
 	}
-	$dvstudios_body.removeClass('is-loaded');
-	if ($dvstudios_body.hasClass('dvstudios-aside-shown')) {
-		$dvstudios_body.removeClass('dvstudios-aside-shown');
+	$pstudio_body.removeClass('is-loaded');
+	if ($pstudio_body.hasClass('pstudio-aside-shown')) {
+		$pstudio_body.removeClass('pstudio-aside-shown');
 	}
-	if ($dvstudios_body.hasClass('dvstudios-mobile-menu-shown')) {
-		$dvstudios_body.removeClass('dvstudios-mobile-menu-shown');
+	if ($pstudio_body.hasClass('pstudio-mobile-menu-shown')) {
+		$pstudio_body.removeClass('pstudio-mobile-menu-shown');
 	}
 
-	if (jQuery('.dvstudios-content').length) {
-		gsap.to('.dvstudios-content', {
+	if (jQuery('.pstudio-content').length) {
+		gsap.to('.pstudio-content', {
 			css: {
 				opacity: 0,
 				y: -100,
@@ -1659,9 +1659,9 @@ dvstudios.change_location = function(this_href) {
 		});
 	}
 	// Unload Albums Carousel Content
-	if (jQuery('.dvstudios-albums-carousel').length) {
-		if (dvstudios_ribbon.type == 'vertical') {
-			gsap.to('.dvstudios-album-item__inner.is-inview', {
+	if (jQuery('.pstudio-albums-carousel').length) {
+		if (pstudio_ribbon.type == 'vertical') {
+			gsap.to('.pstudio-album-item__inner.is-inview', {
 				css: {
 					opacity: 0,
 					y: -100,
@@ -1671,7 +1671,7 @@ dvstudios.change_location = function(this_href) {
 				duration: 0.6,
 			});
 		} else {
-			gsap.to('.dvstudios-album-item__inner.is-inview', {
+			gsap.to('.pstudio-album-item__inner.is-inview', {
 				css: {
 					opacity: 0,
 					x: -100,
@@ -1681,8 +1681,8 @@ dvstudios.change_location = function(this_href) {
 				duration: 0.6,
 			});
 		}
-		if (dvstudios_ribbon.$bar) {
-			gsap.to(dvstudios_ribbon.$bar[0], {
+		if (pstudio_ribbon.$bar) {
+			gsap.to(pstudio_ribbon.$bar[0], {
 				opacity: 0,
 				y: 20,
 				duration: 1,
@@ -1691,10 +1691,10 @@ dvstudios.change_location = function(this_href) {
 	}
 
 	// Unload Albums Slider Content
-	if (jQuery('.dvstudios-albums-slider').length) {
-		if (jQuery('.dvstudios-album-item__title').length) {
-			setTimeout("jQuery('.dvstudios-album-item__title').removeClass('is-loaded')", 300);
-			gsap.to('.dvstudios-album-item__title', {
+	if (jQuery('.pstudio-albums-slider').length) {
+		if (jQuery('.pstudio-album-item__title').length) {
+			setTimeout("jQuery('.pstudio-album-item__title').removeClass('is-loaded')", 300);
+			gsap.to('.pstudio-album-item__title', {
 				css: {
 					top: '0%',
 				},
@@ -1702,9 +1702,9 @@ dvstudios.change_location = function(this_href) {
 				duration: 1,
 			});
 		}
-		if (jQuery('.dvstudios-album-item__explore').length) {
-			setTimeout("jQuery('.dvstudios-album-item__explore').removeClass('is-loaded')", 300);
-			gsap.to('.dvstudios-album-item__explore', {
+		if (jQuery('.pstudio-album-item__explore').length) {
+			setTimeout("jQuery('.pstudio-album-item__explore').removeClass('is-loaded')", 300);
+			gsap.to('.pstudio-album-item__explore', {
 				css: {
 					top: '200%',
 				},
@@ -1712,36 +1712,36 @@ dvstudios.change_location = function(this_href) {
 				duration: 1,
 			});
 		}
-		gsap.fromTo('.dvstudios-slider-prev', {
+		gsap.fromTo('.pstudio-slider-prev', {
 			x: 0,
 		},{
 			x: -50,
 			duration: 0.5,
 			onStart: function() {
-				jQuery('.dvstudios-slider-prev').removeClass('is-loaded');
+				jQuery('.pstudio-slider-prev').removeClass('is-loaded');
 			}
 		});
-		gsap.fromTo('.dvstudios-slider-next', {
+		gsap.fromTo('.pstudio-slider-next', {
 			x: 0,
 		},{
 			x: 50,
 			duration: 0.5,
 			onStart: function() {
-				jQuery('.dvstudios-slider-next').removeClass('is-loaded');
+				jQuery('.pstudio-slider-next').removeClass('is-loaded');
 			}
 		});
-		gsap.to('.dvstudios-album-item__image', {
+		gsap.to('.pstudio-album-item__image', {
 			css: {
 				scale: 1.05,
 				opacity: 0,
 			},
 			duration: 1,
-			delay: dvstudios.config.content_load_delay*1.7,
+			delay: pstudio.config.content_load_delay*1.7,
 		});
 	}
 
 	// Remove Logo
-	gsap.to('.dvstudios-logo', {
+	gsap.to('.pstudio-logo', {
 		css: {
 			x: '-50%',
 			opacity: 0,
@@ -1751,7 +1751,7 @@ dvstudios.change_location = function(this_href) {
 	});
 
 	// Remove Menu
-	gsap.to('.dvstudios-nav ul.main-menu > li',
+	gsap.to('.pstudio-nav ul.main-menu > li',
 		{
 			css: {
 				x: -10,
@@ -1765,7 +1765,7 @@ dvstudios.change_location = function(this_href) {
 	);
 
 	// Unload Mobile Menu
-	gsap.to('.dvstudios-mobile-header > a',
+	gsap.to('.pstudio-mobile-header > a',
 		{
 			x: -10,
 			y: -10,
@@ -1777,8 +1777,8 @@ dvstudios.change_location = function(this_href) {
 	);
 
 	// Footer Socials
-	if (jQuery('.dvstudios-footer__socials').length) {
-		gsap.to('.dvstudios-footer__socials li',
+	if (jQuery('.pstudio-footer__socials').length) {
+		gsap.to('.pstudio-footer__socials li',
 			{
 				css: {
 					x: -10,
@@ -1793,8 +1793,8 @@ dvstudios.change_location = function(this_href) {
 	}
 
 	// Fotoer Copyright
-	if (jQuery('.dvstudios-footer__copyright').length) {
-		gsap.to('.dvstudios-footer__copyright', {
+	if (jQuery('.pstudio-footer__copyright').length) {
+		gsap.to('.pstudio-footer__copyright', {
 			css: {
 				x: '50%',
 				opacity: 0,
@@ -1805,18 +1805,18 @@ dvstudios.change_location = function(this_href) {
 	}
 
 	// Remove Page Title and Guides
-	if (jQuery('.dvstudios-page-title-wrap').length) {
-		setTimeout("jQuery('.dvstudios-page-title-wrap:not(.is-inactive)').removeClass('is-loaded')", 600);
-		gsap.to('.dvstudios-page-title-wrap', 0.5, {
+	if (jQuery('.pstudio-page-title-wrap').length) {
+		setTimeout("jQuery('.pstudio-page-title-wrap:not(.is-inactive)').removeClass('is-loaded')", 600);
+		gsap.to('.pstudio-page-title-wrap', 0.5, {
 			css: {
 				top: 0,
 			},
 			delay: 1.1,
 		});
 	}
-	if (jQuery('.dvstudios-back-wrap').length) {
-		setTimeout("jQuery('.dvstudios-back-wrap:not(.is-inactive)').removeClass('is-loaded')", 600);
-		gsap.to('.dvstudios-back-wrap', 0.5, {
+	if (jQuery('.pstudio-back-wrap').length) {
+		setTimeout("jQuery('.pstudio-back-wrap:not(.is-inactive)').removeClass('is-loaded')", 600);
+		gsap.to('.pstudio-back-wrap', 0.5, {
 			css: {
 				top: '200%',
 			},
@@ -1825,23 +1825,23 @@ dvstudios.change_location = function(this_href) {
 	}
 
 	// Home Template Unloading
-	if ($dvstudios_body.hasClass('dvstudios-home-template')) {
-		if (!$dvstudios_body.hasClass('dvstudios-home-state--contacts') && !$dvstudios_body.hasClass('dvstudios-home-state--works')) {
+	if ($pstudio_body.hasClass('pstudio-home-template')) {
+		if (!$pstudio_body.hasClass('pstudio-home-state--contacts') && !$pstudio_body.hasClass('pstudio-home-state--works')) {
 			var links_delay = 0.5,
 				links_timeout = 0;
 		} else {
 			var links_delay = 1.1,
 				links_timeout = 600;
 		}
-		setTimeout("jQuery('.dvstudios-home-link--works:not(.is-inactive)').removeClass('is-loaded')", links_timeout);
-		gsap.to('.dvstudios-home-link--works:not(.is-inactive)', 0.5, {
+		setTimeout("jQuery('.pstudio-home-link--works:not(.is-inactive)').removeClass('is-loaded')", links_timeout);
+		gsap.to('.pstudio-home-link--works:not(.is-inactive)', 0.5, {
 			css: {
 				top: 0,
 			},
 			delay: links_delay,
 		});
-		setTimeout("jQuery('.dvstudios-home-link--contacts:not(.is-inactive)').removeClass('is-loaded')", links_timeout);
-		gsap.to('.dvstudios-home-link--contacts:not(.is-inactive)', 0.5, {
+		setTimeout("jQuery('.pstudio-home-link--contacts:not(.is-inactive)').removeClass('is-loaded')", links_timeout);
+		gsap.to('.pstudio-home-link--contacts:not(.is-inactive)', 0.5, {
 			css: {
 				top: '200%',
 			},
@@ -1850,14 +1850,14 @@ dvstudios.change_location = function(this_href) {
 	}
 
 	// Remove Page Background
-	if (jQuery('.dvstudios-page-background').length) {
-		gsap.to('.dvstudios-page-background', {
+	if (jQuery('.pstudio-page-background').length) {
+		gsap.to('.pstudio-page-background', {
 			css: {
 				scale: 1.05,
 				opacity: 0,
 			},
 			duration: 1,
-			delay: dvstudios.config.content_load_delay*1.7,
+			delay: pstudio.config.content_load_delay*1.7,
 		});
 	}
 
@@ -1868,34 +1868,34 @@ dvstudios.change_location = function(this_href) {
 
 // DOM Ready. Init Template Core.
 jQuery(document).ready( function() {
-    dvstudios.init();
+    pstudio.init();
 });
 
-$dvstudios_window.on('resize', function() {
+$pstudio_window.on('resize', function() {
 	// Window Resize Actions
-    dvstudios.layout();
-	setTimeout(dvstudios.layout(), 500);
+    pstudio.layout();
+	setTimeout(pstudio.layout(), 500);
 }).on('load', function() {
 	// Window Load Actions
-    dvstudios.layout();
+    pstudio.layout();
 }).on('scroll', function() {
-	if ($dvstudios_body.hasClass('dvstudios-aside-shown')) {
-		$dvstudios_window.scrollTop(dvstudios.old_scroll_top);
+	if ($pstudio_body.hasClass('pstudio-aside-shown')) {
+		$pstudio_window.scrollTop(pstudio.old_scroll_top);
 	}
-	if ($dvstudios_body.hasClass('dvstudios-mobile-menu-shown')) {
-		$dvstudios_window.scrollTop(dvstudios.old_scroll_top);
+	if ($pstudio_body.hasClass('pstudio-mobile-menu-shown')) {
+		$pstudio_window.scrollTop(pstudio.old_scroll_top);
 	}
-	dvstudios.sScroll.target = $dvstudios_window.scrollTop();
-	if (dvstudios.sScroll.target > ($dvstudios_scroll.height() - $dvstudios_window.height())) {
-		dvstudios.sScroll.layout();
+	pstudio.sScroll.target = $pstudio_window.scrollTop();
+	if (pstudio.sScroll.target > ($pstudio_scroll.height() - $pstudio_window.height())) {
+		pstudio.sScroll.layout();
 	}
 
 	//Window Scroll Actions
-	if (jQuery('.dvstudios-back.is-to-top:not(.in-action)').length) {
-		if ($dvstudios_window.scrollTop() > $dvstudios_window.height()/2) {
-			$dvstudios_body.addClass('has-to-top');
+	if (jQuery('.pstudio-back.is-to-top:not(.in-action)').length) {
+		if ($pstudio_window.scrollTop() > $pstudio_window.height()/2) {
+			$pstudio_body.addClass('has-to-top');
 		} else {
-			$dvstudios_body.removeClass('has-to-top');
+			$pstudio_body.removeClass('has-to-top');
 		}
 	}
 });
@@ -1904,8 +1904,8 @@ $dvstudios_window.on('resize', function() {
 jQuery(document).on('keyup', function(e) {
 	switch(e.keyCode) {
   		case 27:  // 'Esc' Key
-			if ($dvstudios_body.hasClass('dvstudios-aside-shown')) {
-				$dvstudios_body.removeClass('dvstudios-aside-shown');
+			if ($pstudio_body.hasClass('pstudio-aside-shown')) {
+				$pstudio_body.removeClass('pstudio-aside-shown');
 			}
     	break;
   		default:
@@ -1914,24 +1914,24 @@ jQuery(document).on('keyup', function(e) {
 });
 
 // Init Content After Loading
-dvstudios.content_loaded = function() {
+pstudio.content_loaded = function() {
 	// Observing Counters
-	if (jQuery('.dvstudios-counter-item').length) {
+	if (jQuery('.pstudio-counter-item').length) {
 		if ('IntersectionObserver' in window) {
-			jQuery('.dvstudios-counter-item').each(function() {
-				dvstudios.counter_observer.observe(this);
+			jQuery('.pstudio-counter-item').each(function() {
+				pstudio.counter_observer.observe(this);
 			});
 		}
 	}
 	// Circle Progress Bar Init
-	if (jQuery('.dvstudios-progress-item').length) {
+	if (jQuery('.pstudio-progress-item').length) {
 		if ('IntersectionObserver' in window) {
-			jQuery('.dvstudios-progress-item').each(function() {
-				dvstudios.progress.observer.observe(this);
+			jQuery('.pstudio-progress-item').each(function() {
+				pstudio.progress.observer.observe(this);
 			});
 		}
 	}
-	dvstudios.layout();
+	pstudio.layout();
 }
 
 // Firefox Back Button Fix
